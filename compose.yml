@@ -1,0 +1,18 @@
+services: 
+  app: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image:
+      otho/r-renv-base
+    env_file:
+      - .env
+    volumes:
+      - "${WORKING_DIR}:/project"
+      - "${RENV_CACHE_PATH}:/root/.cache/R/renv/cache/"
+    tty: true
+    working_dir:
+      /project
+    command: 
+      bash -c "R --vanilla -s -e 'renv::restore()' && tail -F anything"
+
